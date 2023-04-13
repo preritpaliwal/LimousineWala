@@ -6,10 +6,11 @@ from collections import defaultdict
 
 # Reduce Function
 
-curr_loc = ""
-curr_count = 0
+
 
 if(sys.argv[1]=="-1"):
+    curr_loc = ""
+    curr_count = 0  
     # total = 0
     for line in sys.stdin:
         # print(line)
@@ -26,14 +27,29 @@ if(sys.argv[1]=="-1"):
 
 
     print(curr_loc, curr_count)
-    
-    #     # values = float(values)
-    #     # Calculate the total number of trips for the location
-    #     total_trips = 0
-    #     for i in values:
-    #         total_trips += int(i)
-    #     # total_trips = sum(values)
-    #     # Output result
-    #     print(total_trips, key)
+elif (sys.argv[1]=="1"):
+    current_hour = None
+    current_count = 0
+    hour = None
 
+    for line in sys.stdin:
+        line = line.strip()
+        hour, count = line.split('\t', 1)
+
+        try:
+            count = int(count)
+        except ValueError:
+            continue
+
+        if current_hour == hour:
+            current_count += count
+        else:
+            if current_hour:
+                print(f"{current_hour}\t{current_count}")
+            current_count = count
+            current_hour = hour
+
+    if current_hour == hour:
+        print(f"{current_hour}\t{current_count}")
+    
         

@@ -22,4 +22,10 @@ if(sys.argv[1]=="-1"):
             f.write(f"{pickup} {1}")
         print(f"{pickup}\t{1}")
         print(f"{dropoff}\t{1}")
-    
+elif (sys.argv[1]=="1"):
+    for line in sys.stdin:
+        fields = line.strip().split(',')
+        pickup_datetime = fields[1]
+        pickup_hour = pickup_datetime.split(':')[0][-2:]
+        print(f"{pickup_hour}\t1")
+        
