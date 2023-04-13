@@ -24,6 +24,8 @@ if(sys.argv[1]=="-1"):
         print(f"{dropoff}\t{1}")
 elif (sys.argv[1]=="1"):
     for line in sys.stdin:
+        # print(line)
+        # continue
         fields = line.strip().split(',')
         pickup_datetime = fields[1]
         pickup_hour = pickup_datetime.split(':')[0][-2:]
