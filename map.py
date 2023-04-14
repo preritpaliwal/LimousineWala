@@ -46,36 +46,41 @@ elif (sys.argv[1]=="1"): #busiest hour
         pickup_datetime = fields[1]
         pickup_hour = pickup_datetime.split(':')[0][-2:]
         print(f"{pickup_hour}\t1")
-elif(sys.argv[1]==2): #revenue vs month
+elif(sys.argv[1]=="2"): #revenue vs month
     for line in sys.stdin:
-        # print(line)
-        # continue
         fields = line.strip().split(',')
         pickup_datetime = fields[1]
-        pickup_month = pickup_datetime.split('-')[1]
-        revenue = float(fields[16])
-        print(f"{pickup_month}\t{revenue}")
+        pickup_month = pickup_datetime.split('-')
+        if len(pickup_month) > 1:  
+            month = pickup_month[1]   
+            revenue = float(fields[16])
+            print(f"{month}\t{revenue}")
 
-elif(sys.argv[1]==3): #revenue vs day of the week
+elif(sys.argv[1]=="3"): #revenue vs day of the week
     for line in sys.stdin:
         fields = line.strip().split(',')
         pickup_datetime = fields[1]
         pickup_day = pickup_datetime.split()[0]
+        if fields[16] == "total_amount":
+            continue
         revenue = float(fields[16])
         print(f"{pickup_day}\t{revenue}")
 
-elif(sys.argv[1]==4): #busiest day of the week
+elif(sys.argv[1]=="4"): #busiest day of the week
     for line in sys.stdin:
         fields = line.strip().split(',')
         pickup_datetime = fields[1]
         pickup_day = pickup_datetime.split()[0]
         print(f"{pickup_day}\t1")
 
-elif(sys.argv[1]==5): #total trips vs month
+elif(sys.argv[1]=="5"): #total trips vs month
     for line in sys.stdin:
         fields = line.strip().split(',')
         pickup_datetime = fields[1]
-        pickup_month = pickup_datetime.split('-')[1]
-        print(f"{pickup_month}\t1")
+        pickup_month = pickup_datetime.split('-')
+        if len(pickup_month) <= 1:
+            continue
+        month = pickup_month[1]
+        print(f"{month}\t1")
 
         

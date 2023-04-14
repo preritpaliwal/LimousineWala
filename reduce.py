@@ -72,7 +72,7 @@ elif (sys.argv[1]=="1"): #busiest hour
     if current_hour == hour:
         print(f"{current_hour}\t{current_count}")
 
-elif(sys.argv[1]==2): #revenue vs month
+elif(sys.argv[1]=="2"): #revenue vs month
     current_month = None
     current_revenue = 0
     
@@ -89,7 +89,7 @@ elif(sys.argv[1]==2): #revenue vs month
     if current_month == month:
         print(f"{current_month}\t{current_revenue}")
 
-elif(sys.argv[1]==3): #revenue vs day of the week
+elif(sys.argv[1]=="3"): #revenue vs day of the week
     current_day = None
     current_revenue = 0
 
@@ -106,7 +106,7 @@ elif(sys.argv[1]==3): #revenue vs day of the week
     if current_day == day:
         print(f"{current_day}\t{current_revenue}")
 
-elif(sys.argv[1]==4): #busiest day of the week
+elif(sys.argv[1]=="4"): #busiest day of the week
     current_day = None
     current_count = 0
 
@@ -123,7 +123,7 @@ elif(sys.argv[1]==4): #busiest day of the week
     if current_day == day:
         print(f"{current_day}\t{current_count}")
 
-elif(sys.argv[1]==5): #total trips vs month
+elif(sys.argv[1]=="5"): #total trips vs month
     current_month = None
     current_count = 0
 
