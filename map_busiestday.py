@@ -14,12 +14,12 @@ def process_input(record):
     # Extract the pickup datetime field
     try:
         pickup_datetime = row[1]
-        pickup_hour = pickup_datetime.split()[1].split(":")[0]
+        day_of_week = pickup_datetime.split()[0]
     except:
         return None
 
     # Emit the pickup hour and day of week as the key and a count of 1 as the value
-    return (pickup_hour, 1)
+    return (day_of_week, 1)
 
 # Loop over each line of input from standard input
 for line in sys.stdin:
