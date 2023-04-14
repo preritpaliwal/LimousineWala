@@ -55,6 +55,25 @@ elif (sys.argv[1]=="1"):
     if current_hour == hour:
         print(f"{current_hour}\t{current_count}")
 
+elif(sys.argv[1]==2): #revenue vs month
+    current_month = None
+    current_revenue = 0
+    
+    for line in sys.stdin:
+        month, revenue = line.strip().split('\t')
+        revenue = float(revenue)
+        if current_month == month:
+            current_revenue += revenue
+        else:
+            if current_month:
+                print(f"{current_month}\t{current_revenue}")
+            current_revenue = revenue
+            current_month = month
+    if current_month == month:
+        print(f"{current_month}\t{current_revenue}")
+
+
+
 
     
         

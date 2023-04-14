@@ -30,4 +30,13 @@ elif (sys.argv[1]=="1"):
         pickup_datetime = fields[1]
         pickup_hour = pickup_datetime.split(':')[0][-2:]
         print(f"{pickup_hour}\t1")
+elif(sys.argv[1]==2): #revenue vs month
+    for line in sys.stdin:
+        # print(line)
+        # continue
+        fields = line.strip().split(',')
+        pickup_datetime = fields[1]
+        pickup_month = pickup_datetime.split('-')[1]
+        revenue = float(fields[16])
+        print(f"{pickup_month}\t{revenue}")
         
