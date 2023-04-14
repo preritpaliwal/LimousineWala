@@ -39,4 +39,12 @@ elif(sys.argv[1]==2): #revenue vs month
         pickup_month = pickup_datetime.split('-')[1]
         revenue = float(fields[16])
         print(f"{pickup_month}\t{revenue}")
+
+elif(sys.argv[1]==3): #revenue vs day of the week
+    for line in sys.stdin:
+        fields = line.strip().split(',')
+        pickup_datetime = fields[1]
+        pickup_day = pickup_datetime.split()[0]
+        revenue = float(fields[16])
+        print(f"{pickup_day}\t{revenue}")
         

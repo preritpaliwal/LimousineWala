@@ -72,6 +72,23 @@ elif(sys.argv[1]==2): #revenue vs month
     if current_month == month:
         print(f"{current_month}\t{current_revenue}")
 
+elif(sys.argv[1]==3): #revenue vs day of the week
+    current_day = None
+    current_revenue = 0
+
+    for line in sys.stdin:
+        day, revenue = line.strip().split('\t')
+        revenue = float(revenue)
+        if current_day == day:
+            current_revenue += revenue
+        else:
+            if current_day:
+                print(f"{current_day}\t{current_revenue}")
+            current_revenue = revenue
+            current_day = day
+    if current_day == day:
+        print(f"{current_day}\t{current_revenue}")
+
 
 
 
