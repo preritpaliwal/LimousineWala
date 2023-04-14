@@ -51,5 +51,7 @@ elif (sys.argv[1]=="1"):
 
     if current_hour == hour:
         print(f"{current_hour}\t{current_count}")
+
+
     
         
