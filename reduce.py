@@ -33,9 +33,12 @@ elif (sys.argv[1]=="1"):
     hour = None
 
     for line in sys.stdin:
+        # print(line)
+        # continue
         line = line.strip()
         hour, count = line.split('\t', 1)
-
+        # print(hour)
+        # continue
         try:
             count = int(count)
         except ValueError:
