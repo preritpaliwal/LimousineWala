@@ -1,8 +1,34 @@
 import os
+import time
+# SELECT VendorID, tpep_pickup_datetime, RatecodeID FROM tabfj WHERE RatecodeID > 100 AND fare_amount < 10;
 
-inputDir = ""
-outputFolder = "/"
-queryNo = 1
+inputDir = "/taxi/acchaData.csv"
+outputFolder = "/taxi"
+queryNo = 19
+
+cols = {'VendorID':"0",
+        'tpep_pickup_datetime':"1", 
+        'tpep_dropoff_datetime':"2",
+        'passenger_count':"3", 
+        'trip_distance':"4", 
+        'RatecodeID':"5", 
+        'store_and_fwd_flag':"6",       
+        'PULocationID':"7", 
+        'DOLocationID':"8", 
+        'payment_type':"9", 
+        'fare_amount':"10", 
+        'extra':"11",       
+        'mta_tax':"12", 
+        'tip_amount':"13", 
+        'tolls_amount':"14", 
+        'improvement_surcharge':"15",       
+        'total_amount':"16", 
+        'congestion_surcharge':"17",
+        'airport_fee':"18"
+        }
+
+
+
 while(True):
     query = input("query: (enter 0 for select where..., 1 for other)")
     if(query==1):
