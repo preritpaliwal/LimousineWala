@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect,jsonify
 from main import stats_page1, stats_page2, stats_page3, stats_page4, stats_page5, stats_page6, stats_page7, select_where_query  
 import json
-import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from multiprocessing import Pool, cpu_count
 
 app = Flask(__name__)
 
@@ -49,7 +50,7 @@ def index():
         print(query)
 
         ret = select_where_query(123,select_columns, where_args = query)
-        
+
         output = [{c:v for c,v in zip(cols,val)} for val in ret]
         for ele in output:
             print(ele)
@@ -60,15 +61,31 @@ def index():
 def stats():
     print("INSIDE STATS")
 
-    stats = {
-        "stats1": stats_page1(1),
-        "stats2": stats_page2(2),
-        "stats3": stats_page3(3),
-        "stats4": stats_page4(4),
-        "stats5": stats_page5(5),
-        "stats6": stats_page6(6),
-        "stats7": stats_page7(7)
-    }
+    # Sequential
+    # stats = {
+    #     "stats1": stats_page1(1),
+    #     "stats2": stats_page2(2),
+    #     "stats3": stats_page3(3),
+    #     "stats4": stats_page4(4),
+    #     "stats5": stats_page5(5),
+    #     "stats6": stats_page6(6),
+    #     "stats7": stats_page7(7)
+    # }
+
+    # Multi-threading
+    processes = []
+    with ThreadPoolExecutor(max_workers = 7) as executor:
+        processes.append ( executor.submit(stats_page1, 1) )
+        processes.append ( executor.submit(stats_page2, 2) )
+        processes.append ( executor.submit(stats_page3, 3) )
+        processes.append ( executor.submit(stats_page4, 4) )
+        processes.append ( executor.submit(stats_page5, 5) )
+        processes.append ( executor.submit(stats_page6, 6) )
+        processes.append ( executor.submit(stats_page7, 7) )
+
+    stats = {}
+    for i,_ in enumerate(as_completed(processes),start = 1):
+        stats["stats"+str(i)] = _.result()
 
     return jsonify(stats)
         

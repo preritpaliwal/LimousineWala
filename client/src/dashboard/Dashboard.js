@@ -228,7 +228,7 @@ const Dashboard = () => {
           </Grid> */}
 
           {/* Chart */}
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Paper
               sx={{
                 p: 2,
@@ -240,7 +240,7 @@ const Dashboard = () => {
             >
               <Chart />
             </Paper>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Box>

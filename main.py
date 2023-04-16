@@ -1,8 +1,8 @@
 import os
 import time
-# SELECT VendorID, tpep_pickup_datetime, RatecodeID FROM tabfj WHERE RatecodeID > 100 AND fare_amount < 10;
+# SELECT VendorID, tpep_pickup_datetime, RatecodeID FROM table WHERE RatecodeID > 100 AND fare_amount < 10;
 
-inputDir = "/taxi/temp.csv"
+inputDir = "/taxi/yellow_taxi_100.csv"
 outputFolder = "/taxi"
 queryNo = 0
 
