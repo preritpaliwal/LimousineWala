@@ -29,16 +29,16 @@ cols = {'VendorID': "0",
        }
 
 output_filename = "tem.txt"
-with open(output_filename, "w") as f:
-        pass
+# with open(output_filename, "w") as f:
+#         pass
 
 def process_output(output_filename):
     output = []
     with open(output_filename, 'r') as f:
         for line in f:
-            row = line.strip().split(',')
+            row = line.strip().split(' ')
             output.append(row)
-            print(row)
+            # print(row)
 
     if os.path.exists(output_filename):
         os.remove(output_filename)
@@ -69,7 +69,11 @@ def select_where_query(queryNo, sel_args = None, where_args = None):
     os.system(cleanUp)
     process_output(output_filename)
 
-def stats_page1(queryNo):
+def myFunc(e):
+#   print(e[1])
+  return -float(e[1])
+
+def stats_page1(queryNo,k):
 
     print("popular pickup locations")
 
@@ -89,9 +93,11 @@ def stats_page1(queryNo):
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
-    print(final_output)
+    # print(final_output)
+    final_output.sort(key=myFunc)
+    print(final_output[k])
 
-def stats_page2(queryNo):
+def stats_page2(queryNo,k):
     print("popular dropoff location")
 
     mapDir = f"\'./mapper.py 2\'"
@@ -110,7 +116,11 @@ def stats_page2(queryNo):
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
-    print(final_output)
+    # print(final_output)if os.path.exists(output_filename):
+    os.remove(output_filename)
+    # print(final_output)
+    final_output.sort(key=myFunc)
+    print(final_output[k])
 
 def stats_page3(queryNo):
     print("busiest hour")
@@ -130,6 +140,8 @@ def stats_page3(queryNo):
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
+    # print(final_output)
+    final_output.sort(key=myFunc)
     print(final_output)
 
 def stats_page4(queryNo):
@@ -150,11 +162,14 @@ def stats_page4(queryNo):
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
+    # print(final_output)
+    final_output.sort(key=myFunc)
     print(final_output)
+    
 
 
 def stats_page5(queryNo):
-    print("revenue vs day of the week")
+    print("revenue vs day")
     mapDir = f"\'./mapper.py 5\'"
     reduceDir = f"\'./reducer.py 5\'"
     outputDir = f"{outputFolder}/output{queryNo}"
@@ -171,10 +186,12 @@ def stats_page5(queryNo):
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
+    # print(final_output)
+    final_output.sort(key=myFunc)
     print(final_output)
 
 def stats_page6(queryNo):
-    print("busiest day of the week")
+    print("busiest day ")
     mapDir = f"\'./mapper.py 6\'"
     reduceDir = f"\'./reducer.py 6\'"
     outputDir = f"{outputFolder}/output{queryNo}"
@@ -191,10 +208,12 @@ def stats_page6(queryNo):
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
+    # print(final_output)
+    final_output.sort(key=myFunc)
     print(final_output)
 
 def stats_page7(queryNo):
-    print("total trips vs month")
+    print("total trips per month")
     mapDir = f"\'./mapper.py 7\'"
     reduceDir = f"\'./reducer.py 7\'"
     outputDir = f"{outputFolder}/output{queryNo}"
@@ -211,6 +230,8 @@ def stats_page7(queryNo):
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
+    # print(final_output)
+    final_output.sort(key=myFunc)
     print(final_output)
 
 

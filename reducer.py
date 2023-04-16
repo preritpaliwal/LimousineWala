@@ -104,12 +104,12 @@ elif (sys.argv[1] == "3"):  # busiest hour
             current_count += count
         else:
             if current_hour:
-                print(f"{current_hour}\t{current_count}")
+                print(current_hour,current_count)
             current_count = count
             current_hour = hour
 
     if current_hour == hour:
-        print(f"{current_hour}\t{current_count}")
+        print(current_hour,current_count)
 
 elif (sys.argv[1] == "4"):  # revenue vs month
     current_month = None
@@ -121,11 +121,11 @@ elif (sys.argv[1] == "4"):  # revenue vs month
             current_revenue += revenue
         else:
             if current_month:
-                print(f"{current_month}\t{current_revenue}")
+                print(current_month, current_revenue)
             current_revenue = revenue
             current_month = month
     if current_month == month:
-        print(f"{current_month}\t{current_revenue}")
+        print(current_month, current_revenue)
 
 elif (sys.argv[1] == "5"):  # revenue vs day of the week
     current_day = None
@@ -138,11 +138,11 @@ elif (sys.argv[1] == "5"):  # revenue vs day of the week
             current_revenue += revenue
         else:
             if current_day:
-                print(f"{current_day}\t{current_revenue}")
+                print(current_day,current_revenue)
             current_revenue = revenue
             current_day = day
     if current_day == day:
-        print(f"{current_day}\t{current_revenue}")
+        print(current_day,current_revenue)
 
 elif (sys.argv[1] == "6"):  # busiest day of the week
     current_day = None
@@ -155,11 +155,11 @@ elif (sys.argv[1] == "6"):  # busiest day of the week
             current_count += count
         else:
             if current_day:
-                print(f"{current_day}\t{current_count}")
+                print(current_day, current_count)
             current_count = count
             current_day = day
     if current_day == day:
-        print(f"{current_day}\t{current_count}")
+        print(current_day, current_count)
 
 elif (sys.argv[1] == "7"):  # total trips vs month
     current_month = None
@@ -172,9 +172,10 @@ elif (sys.argv[1] == "7"):  # total trips vs month
             current_count += count
         else:
             if current_month:
-                print(f"{current_month}\t{current_count}")
+                print(current_month,current_count)
             current_count = count
             current_month = month
 
     if current_month == month:
-        print(f"{current_month}\t{current_count}")
+        print(current_month,current_count)
+

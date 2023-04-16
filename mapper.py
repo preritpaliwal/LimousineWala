@@ -104,7 +104,7 @@ elif (sys.argv[1] == "4"):  # revenue vs month
             revenue = float(fields[16])
             print(f"{month}\t{revenue}")
 
-elif (sys.argv[1] == "5"):  # revenue vs day of the week
+elif (sys.argv[1] == "5"):  # revenue vs day
     for line in sys.stdin:
         fields = line.strip().split(',')
         pickup_datetime = fields[1]
@@ -114,7 +114,7 @@ elif (sys.argv[1] == "5"):  # revenue vs day of the week
         revenue = float(fields[16])
         print(f"{pickup_day}\t{revenue}")
 
-elif (sys.argv[1] == "6"):  # busiest day of the week
+elif (sys.argv[1] == "6"):  # busiest day 
     for line in sys.stdin:
         fields = line.strip().split(',')
         pickup_datetime = fields[1]
