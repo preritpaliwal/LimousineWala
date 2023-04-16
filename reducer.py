@@ -49,7 +49,7 @@ def reduce(args):
         key, val = line.strip(" ").split("\t")
         val = val.split(',')
         for i in args:
-            print(val[i], end=",")
+            print(val[i], end=" ")
         print("")
         pass
 

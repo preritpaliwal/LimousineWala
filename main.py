@@ -42,12 +42,15 @@ def process_output(output_filename):
 
     if os.path.exists(output_filename):
         os.remove(output_filename)
+
+    print(output)
+    output = output[:min(5,len(output))]
     return output
 
 
 def select_where_query(queryNo, sel_args = None, where_args = None):
-    sel_args = "VendorID tpep_pickup_datetime"
-    where_args = "VendorID:=:2?passenger_count:=:3.0"
+    # sel_args = "VendorID tpep_pickup_datetime"
+    # where_args = "VendorID:=:2?passenger_count:=:3.0"
 
     print("sel_args", sel_args)
     print("where_args", where_args)
@@ -62,18 +65,19 @@ def select_where_query(queryNo, sel_args = None, where_args = None):
 
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
-    process_output(output_filename)
+    return process_output(output_filename)
+
 
 def myFunc(e):
 #   print(e[1])
   return -float(e[1])
 
-def stats_page1(queryNo,k):
+def stats_page1(queryNo):
 
     print("popular pickup locations")
 
@@ -87,7 +91,7 @@ def stats_page1(queryNo,k):
         
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
@@ -95,9 +99,15 @@ def stats_page1(queryNo,k):
     final_output = process_output(output_filename)
     # print(final_output)
     final_output.sort(key=myFunc)
-    print(final_output[k])
+    # print(final_output)
+    return {
+        'Title': "Popular Pickup Locations",
+        'Count': [x[1] for x in final_output],
+        'Location': [x[0] for x in final_output]
+    }
+    
 
-def stats_page2(queryNo,k):
+def stats_page2(queryNo):
     print("popular dropoff location")
 
     mapDir = f"\'./mapper.py 2\'"
@@ -110,17 +120,22 @@ def stats_page2(queryNo,k):
         
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
     os.system(cleanUp)
     final_output = process_output(output_filename)
     # print(final_output)if os.path.exists(output_filename):
-    os.remove(output_filename)
     # print(final_output)
     final_output.sort(key=myFunc)
-    print(final_output[k])
+    # print(final_output)
+
+    return {
+        'Title': 'Popular Dropoff Locations',
+        'Location': [x[0] for x in final_output],
+        'Count': [x[1] for x in final_output]
+    }
 
 def stats_page3(queryNo):
     print("busiest hour")
@@ -134,7 +149,7 @@ def stats_page3(queryNo):
         
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
@@ -142,7 +157,13 @@ def stats_page3(queryNo):
     final_output = process_output(output_filename)
     # print(final_output)
     final_output.sort(key=myFunc)
-    print(final_output)
+    # print(final_output)
+
+    return {
+        'Title': 'Busiest Hour',
+        'Hour': [x[0] for x in final_output],
+        'Count': [x[1] for x in final_output]
+    }
 
 def stats_page4(queryNo):
     print("revenue vs month")
@@ -156,7 +177,7 @@ def stats_page4(queryNo):
         
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
@@ -164,8 +185,13 @@ def stats_page4(queryNo):
     final_output = process_output(output_filename)
     # print(final_output)
     final_output.sort(key=myFunc)
-    print(final_output)
+    # print(final_output)
     
+    return {
+        'Title': 'Revenue vs Month',
+        'Month': [x[0] for x in final_output],
+        'Revenue': [x[1] for x in final_output]
+    }
 
 
 def stats_page5(queryNo):
@@ -180,7 +206,7 @@ def stats_page5(queryNo):
         
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
@@ -188,7 +214,13 @@ def stats_page5(queryNo):
     final_output = process_output(output_filename)
     # print(final_output)
     final_output.sort(key=myFunc)
-    print(final_output)
+    # print(final_output)
+
+    return {
+        'Title': 'Revenue vs Day',
+        'Day': [x[0] for x in final_output],
+        'Revenue': [x[1] for x in final_output]
+    }
 
 def stats_page6(queryNo):
     print("busiest day ")
@@ -202,7 +234,7 @@ def stats_page6(queryNo):
         
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
@@ -210,7 +242,13 @@ def stats_page6(queryNo):
     final_output = process_output(output_filename)
     # print(final_output)
     final_output.sort(key=myFunc)
-    print(final_output)
+    # print(final_output)
+
+    return {
+        'Title': 'Busiest Day',
+        'Day': [x[0] for x in final_output],
+        'Count': [x[1] for x in final_output]
+    }
 
 def stats_page7(queryNo):
     print("total trips per month")
@@ -224,7 +262,7 @@ def stats_page7(queryNo):
         
     cmd = f"hadoop jar ./hadoop-streaming-3.3.4.jar -input {inputDir} -output {outputDir} -mapper {mapDir} -reducer {reduceDir}"
     os.system(cmd)
-    time.sleep(1)
+    #time.sleep(1)
     getOutput = f"hdfs dfs -cat {outputDir}/* > {output_filename}"
     os.system(getOutput)
     cleanUp = f"hdfs dfs -rm -r {outputDir}"
@@ -232,29 +270,35 @@ def stats_page7(queryNo):
     final_output = process_output(output_filename)
     # print(final_output)
     final_output.sort(key=myFunc)
-    print(final_output)
+    # print(final_output)
+
+    return {
+        'Title': 'Total Trips per Month',
+        'Month': [x[0] for x in final_output],
+        'Count': [x[1] for x in final_output]
+    }
 
 
-while(True):
-    data = int(input("\nmyMapReduce> "))
-    if data == -1:
-       print("Bye!")
-       break
-    queryNo = queryNo + 1
-    if data == 0:
-        select_where_query(queryNo)
-    elif data == 1:
-        stats_page1(queryNo)
-    elif data == 2:
-        stats_page2(queryNo)
-    elif data == 3:
-        stats_page3(queryNo)
-    elif data == 4:
-        stats_page4(queryNo)
-    elif data == 5:
-        stats_page5(queryNo)
-    elif data == 6:
-        stats_page6(queryNo)
-    elif data == 7:
-        stats_page7(queryNo)
+# while(True):
+#     data = int(input("\nmyMapReduce> "))
+#     if data == -1:
+#        print("Bye!")
+#        break
+#     queryNo = queryNo + 1
+#     if data == 0:
+#         select_where_query(queryNo)
+#     elif data == 1:
+#         stats_page1(queryNo)
+#     elif data == 2:
+#         stats_page2(queryNo)
+#     elif data == 3:
+#         stats_page3(queryNo)
+#     elif data == 4:
+#         stats_page4(queryNo)
+#     elif data == 5:
+#         stats_page5(queryNo)
+#     elif data == 6:
+#         stats_page6(queryNo)
+#     elif data == 7:
+#         stats_page7(queryNo)
     

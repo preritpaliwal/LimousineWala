@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios";
 import Chart from './Chart';
 import Deposits from './Deposits';
-import { Box, Toolbar, Container, Grid, Paper, Stack, Chip, FormControl, InputLabel, Select, MenuItem, TextField, Button, Typography } from '@mui/material';
+import { Box, Toolbar, Container, Grid, Paper, Stack, Chip, FormControl, InputLabel, Select, MenuItem, TextField, Button, Typography, Menu } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -30,18 +30,31 @@ const Dashboard = () => {
 
   const handleSearch = () => {
     const data = { cols, queries };
-    // console.log(data);
-    const myData = [
-      { "VendorID": 1, "extra": 2, "mta_tax": 3 },
-      { "VendorID": 6, "extra": 4, "mta_tax": 5 },
-      { "VendorID": 7, "extra": 8, "mta_tax": 9 },
-    ];
-    setRows(myData);
-    axios.post("url_of_endpoint", data)
-      .then(res => {
-        setRows(res.data);
-      })
+    console.log(data);
+
+    // const myData = [
+    //   { "VendorID": 1, "extra": 2, "mta_tax": 3 },
+    //   { "VendorID": 6, "extra": 4, "mta_tax": 5 },
+    //   { "VendorID": 7, "extra": 8, "mta_tax": 9 },
+    // ];
+    // setRows(myData);
+
+
+
+    axios.post("/", data)
+      .then(res => { setRows(res.data);})
       .catch(err => console.log(err))
+
+    // axios.get("/")
+    //   .then(res => setRows(res.data))
+    //   .catch(err => console.log(err)) 
+
+    // useEffect( () => {
+      // fetch("/", {method: "POST", body:JSON.stringify(data)})
+    // },[]);
+
+    // fetch("/", {method: "POST", body:JSON.stringify(data)});
+
   }
 
   return (
@@ -154,6 +167,8 @@ const Dashboard = () => {
                           >
                             <MenuItem value="<">{"<"}</MenuItem>
                             <MenuItem value=">">{">"}</MenuItem>
+                            <MenuItem value="=">{"="}</MenuItem>
+                            <MenuItem value="!">{"≠"}</MenuItem>
                           </Select>
                         </FormControl>
                       </TableCell>

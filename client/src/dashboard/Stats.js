@@ -6,6 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import Loader from '../components/Loader';
 import Title from './Title';
 import { Box, Toolbar, Container, Grid, Paper } from '@mui/material';
 // Generate Order Data
@@ -43,24 +44,124 @@ import { Box, Toolbar, Container, Grid, Paper } from '@mui/material';
 
 const Stats = () => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // testing
-    const myData = [
-      { "title": "Title 1", "col1": 1, "col2": 7 },
-      { "title": "Title 2", "col1": 2, "col2": 8 , "col3":13},
-      { "title": "Title 3", "col1": 3, "col2": 9 },
-      { "title": "Title 4", "col1": 4, "col2": 10 , "col3":1, "col4":2},
-      { "title": "Title 5", "col1": 5, "col2": 11 },
-      { "title": "Title 6", "col1": 6, "col2": 12 },
-    ]
-    setData(myData);
+    // const myData = [
+    //   { "title": "Title 1", "col1": 1, "col2": 7 },
+    //   { "title": "Title 2", "col1": 2, "col2": 8 , "col3":13},
+    //   { "title": "Title 3", "col1": 3, "col2": 9 },
+    //   { "title": "Title 4", "col1": 4, "col2": 10 , "col3":1, "col4":2},
+    //   { "title": "Title 5", "col1": 5, "col2": 11 },
+    //   { "title": "Title 6", "col1": 6, "col2": 12 },
+    // ]
+    // setData(myData);
+
+    // test data
+    
+  //   const myData = {
+  //     "stats1": {
+  //         "Count": [
+  //             "8",
+  //             "6",
+  //             "6",
+  //             "5",
+  //             "5",
+  //             "5",
+  //             "4",
+  //             "4",
+  //             "4",
+  //             "4",
+  //             "4",
+  //             "3",
+  //             "3",
+  //             "3",
+  //             "3",
+  //             "3",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "2",
+  //             "1",
+  //             "1",
+  //             "1",
+  //             "1",
+  //             "1",
+  //             "1",
+  //             "1",
+  //             "1"
+  //         ],
+  //         "Location": [
+  //             "132",
+  //             "233",
+  //             "239",
+  //             "138",
+  //             "238",
+  //             "263",
+  //             "161",
+  //             "166",
+  //             "170",
+  //             "237",
+  //             "79",
+  //             "107",
+  //             "114",
+  //             "148",
+  //             "236",
+  //             "68",
+  //             "137",
+  //             "141",
+  //             "142",
+  //             "162",
+  //             "246",
+  //             "249",
+  //             "262",
+  //             "43",
+  //             "48",
+  //             "50",
+  //             "90",
+  //             "113",
+  //             "164",
+  //             "211",
+  //             "234",
+  //             "4",
+  //             "45",
+  //             "7",
+  //             "70"
+  //         ],
+  //         "Title": "Popular Pickup Locations"
+  //     },
+  //     "stats7": {
+  //         "Count": [
+  //             "100"
+  //         ],
+  //         "Month": [
+  //             "01"
+  //         ],
+  //         "Title": "Total Trips per Month"
+  //     }
+  // }
+  // setData(myData);
 
     // fetch data from backend
-    axios.get("url_of_endpoint")
-      .then(res => setData(res.data))
-      .catch(err => console.log(err))
+    setIsLoading(true);
+
+    axios.get("/stats")
+      .then(res => {setData(res.data); setIsLoading(false)})
+      .catch(err => {console.log(err); setIsLoading(false)})
   }, []);
+
+  
+  // console.log(data);
+
+
 
   return (
     <Box
@@ -76,6 +177,7 @@ const Stats = () => {
       }}
     >
       <Toolbar />
+      {isLoading ? <Loader/> : null}
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>Statistics</Typography>
         <Grid container spacing={3}>
@@ -106,17 +208,20 @@ const Stats = () => {
             </Paper>
           </Grid> */}
           {/* Recent Orders */}
-          {data.map((d, index) => <Grid item xs={12}>
+          {Object.keys(data).map((d, index) => <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Title>{d.title}</Title>
+              <Title>{data[d].Title}</Title>
               <Table size="medium">
                 <TableHead>
                   <TableRow>
-                    {Object.keys(d).filter(k => k !== "title").map((key) => <TableCell Wkey={key}>{key}</TableCell>)}
+                    {Object.keys(data[d]).filter(k => k !== "Title").reverse().map((key) => <TableCell key={key}>{key}</TableCell>)}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Object.keys(d).filter(k => k !== "title").map((key) => <TableCell key={d[key]}>{d[key]}</TableCell>)}
+                  {/* {console.log(Object.keys(data[d]).filter(k => k !== "Title"))} */}
+                    {data[d][Object.keys(data[d]).filter(k => k !== "Title")[0]].map((k, index) => <TableRow key={k}>
+                      {Object.keys(data[d]).filter(k => k !== "Title").reverse().map((item) => <TableCell key={item}>{data[d][item][index]}</TableCell>)}
+                    </TableRow>)}
                 </TableBody>
               </Table>
             </Paper>
